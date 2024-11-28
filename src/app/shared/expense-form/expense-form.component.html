@@ -1,0 +1,22 @@
+<div class="p-fluid">
+    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+      <div class="p-field">
+        <label for="description">Description</label>
+        <input id="description" pInputText formControlName="description" />
+      </div>
+      <div class="p-field">
+        <label for="amount">Montant</label>
+        <input id="amount" type="number" pInputText formControlName="amount" />
+      </div>
+      <div class="p-field">
+        <label for="category">Catégorie</label>
+        <input id="category" pInputText formControlName="category" />
+      </div>
+      <div class="p-field-checkbox">
+        <p-checkbox formControlName="recurring" [binary]="true"></p-checkbox>
+        <label for="recurring">Récurrent</label>
+      </div>
+      <button pButton type="submit" label="Ajouter Dépense" [disabled]="!expenseForm.valid"></button>
+    </form>
+  </div>
+  

@@ -1,0 +1,17 @@
+<div class="p-fluid p-grid p-justify-center">
+    <div class="p-col-12 p-md-6">
+      <h2>Connexion</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="p-field">
+          <label for="email">Email</label>
+          <input id="email" pInputText formControlName="email" />
+        </div>
+        <div class="p-field">
+          <label for="password">Mot de passe</label>
+          <input id="password" type="password" pInputText formControlName="password" />
+        </div>
+        <button pButton label="Se connecter" icon="pi pi-check" [disabled]="!loginForm.valid"></button>
+      </form>
+    </div>
+  </div>
+  
