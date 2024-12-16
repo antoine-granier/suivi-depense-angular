@@ -1,26 +1,43 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Group } from '../models/group';
+import { map, Observable } from 'rxjs';
 import { Expense } from '../models/expense';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExpenseService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'http://localhost:3000/expenses';
 
   constructor(private http: HttpClient) {}
 
-  getGroups(): Observable<Group[]> {
-    return this.http.get<Group[]>(`${this.apiUrl}/groups`);
+  getAllExpenses(): Observable<Expense[]> {
+    return this.http.get<Expense[]>(this.apiUrl);
   }
 
   addExpense(expense: Expense): Observable<Expense> {
-    return this.http.post<Expense>(`${this.apiUrl}/expenses`, expense);
+    return this.http.post<Expense>(this.apiUrl, expense);
+  }
+
+  updateExpense(id: number, expense: Expense): Observable<Expense> {
+    return this.http.put<Expense>(`${this.apiUrl}/${id}`, expense);
+  }
+
+  deleteExpense(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
   getExpensesByGroup(groupId: number): Observable<Expense[]> {
-    return this.http.get<Expense[]>(`${this.apiUrl}/expenses?groupId=${groupId}`);
+    return this.http.get<Expense[]>(`${this.apiUrl}?groupId=${groupId}`);
+  }
+
+  getTotalExpenseByGroup(groupId: number): Observable<number> {
+    return this.http
+      .get<Expense[]>(`${this.apiUrl}?groupId=${groupId}`)
+      .pipe(
+        map((expenses) =>
+          expenses.reduce((total, expense) => total + expense.amount, 0)
+        )
+      );
   }
 }

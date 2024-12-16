@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ExpenseService } from '../services/expense.service';
+import { GroupService } from '../services/group.service';
 import { Group } from '../models/group';
 
 @Component({
@@ -10,9 +11,9 @@ import { Group } from '../models/group';
 export class DashboardComponent implements OnInit {
   groups: Group[] = [];
 
-  constructor(private expenseService: ExpenseService) {}
+  constructor(private groupService: GroupService) {}
 
   ngOnInit(): void {
-    this.expenseService.getGroups().subscribe((data) => (this.groups = data));
+    this.groupService.getGroups().subscribe((data) => (this.groups = data));
   }
 }
