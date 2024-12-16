@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { matchPassword } from 'src/app/validators/matchPassword';
 
 @Component({
-  selector: 'app-register',
+  selector: 'div.app-register.flex.align-items-center.h-screen.w-full',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
