@@ -82,4 +82,11 @@ export class GroupDetailsComponent implements OnInit {
       this.expenses = this.expenses.filter((expense) => expense.id !== expenseId);
     });
   }
+
+  /**
+   * Calculate the total amount of all expenses.
+   */
+  getTotalExpenses(): number {
+    return this.expenses.reduce((total, expense) => total + expense.amount, 0);
+  }
 }

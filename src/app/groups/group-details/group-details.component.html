@@ -1,6 +1,11 @@
 <div class="p-mt-3">
   <h3>Dépenses</h3>
 
+  <!-- Total Expenses -->
+  <div class="p-text-right p-mb-3">
+    <h4>Total des dépenses : <span>{{ getTotalExpenses() | currency: 'EUR' }}</span></h4>
+  </div>
+
   <!-- Table for displaying expenses -->
   <p-table [value]="expenses" [paginator]="true" [rows]="5" [responsiveLayout]="'scroll'">
     <ng-template pTemplate="header">
