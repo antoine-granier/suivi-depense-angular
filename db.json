@@ -1,6 +1,68 @@
 {
-    "users": [],
-    "groups": [],
-    "expenses": []
-  }
-  
+  "users": [
+    {
+      "id": 1,
+      "name": "Alice",
+      "email": "alice@example.com",
+      "password": "password123"
+    },
+    {
+      "id": 2,
+      "name": "Bob",
+      "email": "bob@example.com",
+      "password": "password456"
+    }
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "name": "Maison",
+      "description": "Dépenses liées à la maison",
+      "createdAt": "2023-11-01T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Voiture",
+      "description": "Dépenses liées à la voiture",
+      "createdAt": "2023-11-02T10:00:00Z"
+    }
+  ],
+  "expenses": [
+    {
+      "id": 1,
+      "groupId": 1,
+      "description": "Loyer",
+      "amount": 1200,
+      "category": "Logement",
+      "recurring": true,
+      "date": "2023-11-01T00:00:00Z"
+    },
+    {
+      "id": 2,
+      "groupId": 1,
+      "description": "Electricité",
+      "amount": 75,
+      "category": "Services publics",
+      "recurring": true,
+      "date": "2023-11-05T00:00:00Z"
+    },
+    {
+      "id": 3,
+      "groupId": 2,
+      "description": "Assurance voiture",
+      "amount": 500,
+      "category": "Assurance",
+      "recurring": true,
+      "date": "2023-11-10T00:00:00Z"
+    },
+    {
+      "id": 4,
+      "groupId": 2,
+      "description": "Essence",
+      "amount": 50,
+      "category": "Carburant",
+      "recurring": false,
+      "date": "2023-11-15T00:00:00Z"
+    }
+  ]
+}

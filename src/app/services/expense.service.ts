@@ -5,7 +5,7 @@ import { Group } from '../models/group';
 import { Expense } from '../models/expense';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ExpenseService {
   private apiUrl = 'http://localhost:3000';
