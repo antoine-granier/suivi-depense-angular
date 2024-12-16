@@ -1,0 +1,20 @@
+.group-card {
+    margin-bottom: 20px;
+  
+    .p-card {
+      border: 1px solid #dfe1e5;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+  
+    .p-card-header {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  
+    .p-card-subheader {
+      font-size: 0.9rem;
+      color: #757575;
+    }
+  }
+  
