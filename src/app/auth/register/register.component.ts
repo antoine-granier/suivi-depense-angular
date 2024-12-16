@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { matchPassword } from 'src/app/validators/matchPassword';
+import { matchPassword } from '../../../app/validators/matchPassword';
 
 @Component({
   selector: 'div.app-register.flex.align-items-center.h-screen.w-full',
