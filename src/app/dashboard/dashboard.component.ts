@@ -25,8 +25,6 @@ export class DashboardComponent implements OnInit {
    * @param groupId ID of the group to view details.
    */
   onGroupDetails(groupId: number): void {
-    console.log('View details for group ID:', groupId);
-
     this.router.navigate(['/group', groupId]);
   }
 }
