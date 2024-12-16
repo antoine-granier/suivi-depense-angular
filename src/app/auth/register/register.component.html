@@ -1,1 +1,19 @@
-<p>register works!</p>
+<img class="w-6" src="assets/sign.svg"/>
+<div class="w-6 pr-6">
+  <h2 class="mb-4">Inscription</h2>
+  <form class="flex flex-column gap-2" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+    <div class="flex flex-column gap-1">
+      <label for="email">Email</label>
+      <input id="email" pInputText formControlName="email" />
+    </div>
+    <div class="flex flex-column gap-1">
+      <label for="password">Mot de passe</label>
+      <input id="password" type="password" pInputText formControlName="password" />
+    </div>
+    <div class="flex flex-column gap-1">
+      <label for="confirmPassword">Confirmation mot de passe</label>
+      <input id="confirmPassword" type="password" pInputText formControlName="confirmPassword" />
+    </div>
+    <button pButton label="S'inscrire" icon="pi pi-check" [disabled]="!signUpForm.valid"></button>
+  </form>
+</div>
