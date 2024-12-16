@@ -1,1 +1,10 @@
-<p>group-card works!</p>
+<p-card class="group-card" header="{{ group.name }}" subheader="{{ group.description }}">
+    <ng-template pTemplate="content">
+      <p><b>Description:</b> {{ group.description }}</p>
+      <p><b>Créé le:</b> {{ group.createdAt }}</p>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button pButton type="button" label="Voir Détails" icon="pi pi-eye" (click)="viewDetails()"></button>
+    </ng-template>
+  </p-card>
+  

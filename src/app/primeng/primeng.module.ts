@@ -19,6 +19,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     ButtonModule,
     InputTextModule,
     TableModule,
+    DialogModule,
     CheckboxModule,
     DropdownModule,
     DialogModule,

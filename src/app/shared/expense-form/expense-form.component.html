@@ -1,22 +1,95 @@
 <div class="p-fluid">
-    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
-      <div class="p-field">
-        <label for="description">Description</label>
-        <input id="description" pInputText formControlName="description" />
-      </div>
-      <div class="p-field">
-        <label for="amount">Montant</label>
-        <input id="amount" type="number" pInputText formControlName="amount" />
-      </div>
-      <div class="p-field">
-        <label for="category">Catégorie</label>
-        <input id="category" pInputText formControlName="category" />
-      </div>
-      <div class="p-field-checkbox">
-        <p-checkbox formControlName="recurring" [binary]="true"></p-checkbox>
-        <label for="recurring">Récurrent</label>
-      </div>
-      <button pButton type="submit" label="Ajouter Dépense" [disabled]="!expenseForm.valid"></button>
-    </form>
-  </div>
-  
+  <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+    <!-- Description Field -->
+    <div class="p-field">
+      <label for="description">Description</label>
+      <input
+        id="description"
+        type="text"
+        pInputText
+        formControlName="description"
+        placeholder="Description de la dépense"
+      />
+      <small
+        *ngIf="
+          expenseForm.get('description')?.invalid &&
+          expenseForm.get('description')?.touched
+        "
+        class="p-error"
+      >
+        La description est obligatoire.
+      </small>
+    </div>
+
+    <!-- Amount Field -->
+    <div class="p-field">
+      <label for="amount">Montant</label>
+      <input
+        id="amount"
+        type="number"
+        pInputText
+        formControlName="amount"
+        placeholder="Montant (en EUR)"
+      />
+      <small
+        *ngIf="
+          expenseForm.get('amount')?.invalid &&
+          expenseForm.get('amount')?.touched
+        "
+        class="p-error"
+      >
+        Le montant doit être supérieur à 0.
+      </small>
+    </div>
+
+    <!-- Category Dropdown -->
+    <div class="p-field">
+      <label for="category">Catégorie</label>
+      <p-dropdown
+        id="category"
+        [options]="categories"
+        formControlName="category"
+        placeholder="Choisissez une catégorie"
+      ></p-dropdown>
+      <small
+        *ngIf="
+          expenseForm.get('category')?.invalid &&
+          expenseForm.get('category')?.touched
+        "
+        class="p-error"
+      >
+        La catégorie est obligatoire.
+      </small>
+    </div>
+
+    <!-- Recurring Checkbox -->
+    <div class="p-field-checkbox">
+      <p-checkbox
+        id="recurring"
+        [binary]="true"
+        formControlName="recurring"
+      ></p-checkbox>
+      <label for="recurring">Dépense récurrente</label>
+    </div>
+
+    <!-- Buttons -->
+    <div class="p-mt-3">
+      <button
+        pButton
+        type="submit"
+        label="Enregistrer"
+        icon="pi pi-save"
+        [disabled]="expenseForm.invalid"
+        class="p-button-primary p-mr-2"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Annuler"
+        icon="pi pi-times"
+        class="p-button-secondary"
+        (click)="onCancel()"
+      ></button>
+    </div>
+  </form>
+</div>

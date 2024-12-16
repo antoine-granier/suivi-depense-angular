@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Group } from '../../models/group';
 
 @Component({
   selector: 'app-group-card',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./group-card.component.scss']
 })
 export class GroupCardComponent {
+  @Input() group!: Group;
+  @Output() details = new EventEmitter<number>();
 
+  viewDetails(): void {
+    this.details.emit(this.group.id); 
+  }
 }

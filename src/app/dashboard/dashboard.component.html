@@ -1,22 +1,5 @@
-<div class="p-grid p-justify-center">
-    <div class="p-col-12">
-      <h2>Groupes de Dépenses</h2>
-      <p-table [value]="groups" [paginator]="true" [rows]="5">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Nom</th>
-            <th>Description</th>
-            <th>Date de Création</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-group>
-          <tr>
-            <td>{{ group.name }}</td>
-            <td>{{ group.description }}</td>
-            <td>{{ group.createdAt | date: 'short' }}</td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
+<div class="p-grid">
+  <div class="p-col-12 p-md-4" *ngFor="let group of groups">
+    <app-group-card [group]="group" (details)="onGroupDetails($event)"></app-group-card>
   </div>
-  
+</div>
