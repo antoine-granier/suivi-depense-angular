@@ -3,6 +3,10 @@
   <h2 class="mb-4">Inscription</h2>
   <form class="flex flex-column gap-2" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
     <div class="flex flex-column gap-1">
+      <label for="name">Nom</label>
+      <input id="name" pInputText formControlName="name" />
+    </div>
+    <div class="flex flex-column gap-1">
       <label for="email">Email</label>
       <input id="email" pInputText formControlName="email" />
     </div>
