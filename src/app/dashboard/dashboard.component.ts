@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'; // Import Router
-import { ExpenseService } from '../services/expense.service';
 import { Group } from '../models/group';
+import { AuthSessionService } from '../services/auth-session.service';
+import { GroupService } from '../services/group.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,11 +12,12 @@ import { Group } from '../models/group';
 export class DashboardComponent implements OnInit {
   groups: Group[] = [];
 
-  constructor(private expenseService: ExpenseService, private router: Router) {} // Inject Router
+  constructor(private groupService: GroupService, private router: Router, private authSessionService: AuthSessionService) {} // Inject Router
 
   ngOnInit(): void {
     // Fetch all groups
-    this.expenseService.getGroups().subscribe((data) => {
+    const userId = this.authSessionService.getUser().id
+    this.groupService.getGroups(userId).subscribe((data) => {
       this.groups = data;
     });
   }

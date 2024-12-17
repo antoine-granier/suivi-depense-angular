@@ -24,12 +24,14 @@
       "id": 1,
       "name": "Maison",
       "description": "Dépenses liées à la maison",
+      "userId": 2,
       "createdAt": "2023-11-01T10:00:00Z"
     },
     {
       "id": 2,
       "name": "Voiture",
       "description": "Dépenses liées à la voiture",
+      "userId": 3,
       "createdAt": "2023-11-02T10:00:00Z"
     }
   ],

@@ -4,6 +4,7 @@ import { Expense } from '../../models/expense';
 import { Group } from '../../models/group';
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { GroupService } from 'src/app/services/group.service';
 
 @Component({
   selector: 'app-group-details',
@@ -17,14 +18,14 @@ export class GroupDetailsComponent implements OnInit {
   expenseModalVisible: boolean = false; // Controls the visibility of the modal
   isEditing: boolean = false; // Whether the modal is in editing mode
 
-  constructor(private expenseService: ExpenseService, private router:ActivatedRoute) {}
+  constructor(private expenseService: ExpenseService, private groupService: GroupService, private router:ActivatedRoute) {}
 
   async ngOnInit() {
     const groupId = Number(this.router.snapshot.paramMap.get('id'));
 
 
     // Fetch group details
-    this.expenseService.getGroupById(groupId).subscribe((group) => {
+    this.groupService.getGroupById(groupId).subscribe((group) => {
       this.group = group;
     });
 
