@@ -1,5 +1,4 @@
-<div class="p-grid">
-  <div class="p-col-12 p-md-4" *ngFor="let group of groups">
-    <app-group-card [group]="group" (details)="onGroupDetails($event)"></app-group-card>
-  </div>
+<div class="w-full flex flex-column" *ngFor="let group of groups">
+  <app-group-card [group]="group" (details)="onGroupDetails($event)"></app-group-card>
 </div>
+<app-statistic-toggle/>

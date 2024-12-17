@@ -13,6 +13,8 @@ import { HighlightDirective } from './directives/highlight.directive';
 import { CurrencyFormatPipe } from './pipes/currency-format.pipe';
 import { PrimeNgModule } from './primeng/primeng.module';
 import { SharedModule } from './shared/shared.module';
+import { StatisticToggleComponent } from './statistic-toggle/statistic-toggle.component';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -25,12 +27,14 @@ import { SharedModule } from './shared/shared.module';
     ExpenseFormComponent,
     HighlightDirective,
     CurrencyFormatPipe,
+    StatisticToggleComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     PrimeNgModule,
-    SharedModule
+    SharedModule,
+    ChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

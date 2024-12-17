@@ -1,0 +1,29 @@
+<div class="flex align-items-center gap-2 py-2">
+  <h2>Statistiques des dépenses</h2>
+  <div class="flex align-items-center">
+    <div (click)="toggleChart()" [ngClass]="(showBarChart ? 'opacity-40 cursor-auto' : 'cursor-pointer') + ' px-2 py-1 border-1 border-round-left-lg surface-100 border-400 text-800'">
+      <i class="pi pi-chart-bar" style="font-size: 1.15rem"></i>
+    </div>
+    <div (click)="toggleChart()" [ngClass]="(!showBarChart ? 'opacity-40 cursor-auto' : 'cursor-pointer') + ' px-2 py-1 border-1 border-round-right-lg cursor-pointer surface-100 border-400 text-800'">
+      <i class="pi pi-chart-pie" style="font-size: 1.15rem"></i>
+    </div>
+  </div>
+</div>
+
+<!-- Loader -->
+<p *ngIf="isLoading" class="text-sm">
+  <i class="pi pi-spin pi-spinner"></i> Chargement des données...
+</p>
+
+<!-- Contenu après chargement -->
+<div *ngIf="!isLoading">
+  <div *ngIf="showBarChart; else pieChart">
+    <h3 class="text-sm">Comparaison des dépenses par groupe</h3>
+    <p-chart type="bar" [data]="barChartData"></p-chart>
+  </div>
+
+  <ng-template #pieChart>
+    <h3 class="text-sm">Répartition des dépenses par catégorie</h3>
+    <p-chart type="pie" [data]="pieChartData"></p-chart>
+  </ng-template>
+</div>

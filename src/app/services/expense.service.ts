@@ -10,7 +10,6 @@ import { Group } from '../models/group';
 export class ExpenseService {
   private apiUrl = 'http://localhost:3000';
   private expensesUrl = `${this.apiUrl}/expenses`;
-  private groupsUrl = `${this.apiUrl}/groups`;
 
   constructor(private http: HttpClient) {}
 
@@ -98,46 +97,5 @@ export class ExpenseService {
         )
       )
     );
-  }
-
-  // -------------- Group Methods --------------
-  /**
-   * Fetch all groups.
-   */
-  getGroups(): Observable<Group[]> {
-    return this.http.get<Group[]>(this.groupsUrl);
-  }
-
-  /**
-   * Add a new group.
-   * @param group Group object to add.
-   */
-  addGroup(group: Group): Observable<Group> {
-    return this.http.post<Group>(this.groupsUrl, group);
-  }
-
-  /**
-   * Update an existing group.
-   * @param id Group ID to update.
-   * @param group Updated group data.
-   */
-  updateGroup(id: number, group: Group): Observable<Group> {
-    return this.http.put<Group>(`${this.groupsUrl}/${id}`, group);
-  }
-
-  /**
-   * Delete a group by ID.
-   * @param id Group ID to delete.
-   */
-  deleteGroup(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.groupsUrl}/${id}`);
-  }
-
-  /**
-   * Fetch a single group by its ID.
-   * @param id Group ID.
-   */
-  getGroupById(id: number): Observable<Group> {
-    return this.http.get<Group>(`${this.groupsUrl}/${id}`);
   }
 }

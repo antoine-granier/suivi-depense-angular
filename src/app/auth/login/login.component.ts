@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AuthSessionService } from '../../../app/services/auth-session.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { AuthSessionService } from '../../../app/services/auth-session.service';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private authSessionService: AuthSessionService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private authSessionService: AuthSessionService, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -23,6 +24,7 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe({
         next: user => {
           this.authSessionService.setUser({email: user.email, id: user.id, name: user.name})
+          this.router.navigate(["dashboard"])
         },
         error: err => {
           console.log("Error");
