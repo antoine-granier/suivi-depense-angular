@@ -62,6 +62,27 @@
       </small>
     </div>
 
+    <!-- Date Field -->
+    <div class="p-field">
+      <label for="date">Date</label>
+      <p-calendar
+        id="date"
+        formControlName="date"
+        dateFormat="dd/mm/yy"
+        [showIcon]="true"
+        appendTo="body"
+      ></p-calendar>
+      <small
+        *ngIf="
+          expenseForm.get('date')?.invalid &&
+          expenseForm.get('date')?.touched
+        "
+        class="p-error"
+      >
+        La date est obligatoire.
+      </small>
+    </div>
+
     <!-- Recurring Checkbox -->
     <div class="p-field-checkbox">
       <p-checkbox

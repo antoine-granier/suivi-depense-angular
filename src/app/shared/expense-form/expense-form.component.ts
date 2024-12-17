@@ -16,13 +16,12 @@ import { Expense } from '../../models/expense';
   styleUrls: ['./expense-form.component.scss']
 })
 export class ExpenseFormComponent implements OnInit, OnChanges {
-  @Input() expense: Expense | null = null; // Expense to edit or null for new
-  @Output() submitExpense = new EventEmitter<Expense>(); // Submit event
-  @Output() cancel = new EventEmitter<void>(); // Cancel event
+  @Input() expense: Expense | null = null;
+  @Output() submitExpense = new EventEmitter<Expense>();
+  @Output() cancel = new EventEmitter<void>();
 
   expenseForm!: FormGroup;
 
-  // Dropdown options for categories
   categories = [
     { label: 'Logement', value: 'Logement' },
     { label: 'Transport', value: 'Transport' },
@@ -44,48 +43,40 @@ export class ExpenseFormComponent implements OnInit, OnChanges {
     }
   }
 
-  /**
-   * Initialize the form with default values
-   */
   private initializeForm(): void {
     this.expenseForm = this.fb.group({
       description: ['', Validators.required],
       amount: [0, [Validators.required, Validators.min(0.01)]],
       category: ['', Validators.required],
+      date: [null, Validators.required],
       recurring: [false]
     });
   }
 
-  /**
-   * Update the form when editing an expense
-   */
   private updateForm(expense: Expense): void {
     this.expenseForm.patchValue({
       description: expense.description,
       amount: expense.amount,
       category: expense.category,
+      date: new Date(expense.date),
       recurring: expense.recurring
     });
   }
 
-  /**
-   * Emit the form value when submitted
-   */
   onSubmit(): void {
     if (this.expenseForm.valid) {
+      const formValue = this.expenseForm.value;
       const submittedExpense: Expense = {
-        ...this.expenseForm.value,
-        id: this.expense ? this.expense.id : undefined, // Preserve ID for editing
-        groupId: this.expense ? this.expense.groupId : undefined // Preserve groupId
+        ...formValue,
+        id: this.expense ? this.expense.id : undefined,
+        groupId: this.expense ? this.expense.groupId : undefined,
+        date: formValue.date.toISOString()
       };
       this.submitExpense.emit(submittedExpense);
       this.expenseForm.reset();
     }
   }
 
-  /**
-   * Emit cancel event and reset the form
-   */
   onCancel(): void {
     this.cancel.emit();
     this.expenseForm.reset();
