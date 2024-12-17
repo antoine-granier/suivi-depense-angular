@@ -1,4 +1,33 @@
 <div class="w-full flex flex-column" *ngFor="let group of groups">
-  <app-group-card [group]="group" (details)="onGroupDetails($event)"></app-group-card>
+  <app-group-card
+    [group]="group"
+    (details)="onGroupDetails(group.id)"
+  ></app-group-card>
+  <div class="p-mt-2">
+    <button
+      pButton
+      icon="pi pi-pencil"
+      label="Modifier"
+      class="p-button-rounded p-button-text"
+      (click)="openGroupModal(group)"
+    ></button>
+    <button
+      pButton
+      icon="pi pi-trash"
+      label="Supprimer"
+      class="p-button-rounded p-button-danger p-button-text"
+      (click)="deleteGroup(group.id)"
+    ></button>
+  </div>
+</div>
+
+<div class="p-mt-4">
+  <button
+    pButton
+    label="Ajouter un groupe"
+    icon="pi pi-plus"
+    class="p-button-primary"
+    (click)="openGroupModal()"
+  ></button>
 </div>
 <app-statistic-toggle/>
