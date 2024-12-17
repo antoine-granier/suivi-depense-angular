@@ -5,7 +5,7 @@ import { AuthSessionService } from '../services/auth-session.service';
 import { GroupService } from '../services/group.service';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'div.app-dashboard.w-screen.h-screen.flex.gap-2',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
