@@ -3,7 +3,6 @@ import { ExpenseService } from '../../services/expense.service';
 import { Expense } from '../../models/expense';
 import { Group } from '../../models/group';
 import { ActivatedRoute } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
 import { GroupService } from 'src/app/services/group.service';
 
 interface ExpensesByMonth {
@@ -20,51 +19,54 @@ interface ExpensesByMonth {
 export class GroupDetailsComponent implements OnInit {
   group!: Group | null;
   expenses: Expense[] = [];
-  groupedExpenses: ExpensesByMonth[] = []; // Dépenses regroupées par mois
+  groupedExpenses: ExpensesByMonth[] = [];
   selectedExpense: Expense | null = null;
   expenseModalVisible: boolean = false;
   isEditing: boolean = false;
 
-  constructor(private expenseService: ExpenseService, private groupService: GroupService, private router:ActivatedRoute) {}
+  constructor(
+    private expenseService: ExpenseService,
+    private groupService: GroupService,
+    private route: ActivatedRoute
+  ) {}
 
-  async ngOnInit() {
-    const groupId = Number(this.router.snapshot.paramMap.get('id'));
+  ngOnInit(): void {
+    // Écouter les changements d'ID dans l'URL
+    this.route.paramMap.subscribe((params) => {
+      const groupId = Number(params.get('id'));
+      if (groupId) {
+        this.loadGroupData(groupId);
+      }
+    });
+  }
 
-
+  /**
+   * Charge les données du groupe et ses dépenses
+   */
+  loadGroupData(groupId: number): void {
+    // Charger les informations du groupe
     this.groupService.getGroupById(groupId).subscribe((group) => {
       this.group = group;
     });
 
+    // Charger les dépenses du groupe
     this.expenseService.getExpensesByGroup(groupId).subscribe((expenses) => {
       this.expenses = expenses;
-      this.groupExpensesByMonth(); // Regrouper par mois
-    });
-
-    this.expenseService.getExpensesByGroup(groupId).subscribe((expenses) => {
-      this.expenses = expenses;
+      this.groupExpensesByMonth();
     });
   }
-/**
-   * Open the modal for creating or editing an expense.
-   * @param expense Optional: Expense to edit. If null, the modal will be for creating.
-   */
-openExpenseModal(expense: Expense | null = null): void {
-  this.selectedExpense = expense ? { ...expense } : null;
-  this.isEditing = !!expense;
-  this.expenseModalVisible = true;
-}
+
   /**
    * Regroupe les dépenses par mois et calcule le total.
    */
   groupExpensesByMonth(): void {
     const grouped: { [key: string]: Expense[] } = {};
 
-    // Grouper les dépenses par année et mois
     this.expenses.forEach((expense) => {
       const date = new Date(expense.date);
       const monthKey = `${date.getFullYear()}-${(date.getMonth() + 1)
         .toString()
-        .padStart(2, '0')}`; // Format: YYYY-MM
+        .padStart(2, '0')}`;
 
       if (!grouped[monthKey]) {
         grouped[monthKey] = [];
@@ -72,9 +74,8 @@ openExpenseModal(expense: Expense | null = null): void {
       grouped[monthKey].push(expense);
     });
 
-    // Convertir en tableau pour l'affichage
     this.groupedExpenses = Object.keys(grouped)
-      .sort((a, b) => b.localeCompare(a)) // Tri décroissant par date
+      .sort((a, b) => b.localeCompare(a))
       .map((key) => {
         const expenses = grouped[key];
         return {
@@ -86,16 +87,7 @@ openExpenseModal(expense: Expense | null = null): void {
   }
 
   /**
-   * Close the modal and reset the state.
-   */
-  closeExpenseModal(): void {
-    this.expenseModalVisible = false;
-    this.selectedExpense = null;
-    this.isEditing = false;
-  }
-
-  /**
-   * Formate le mois pour l'affichage (ex: "2024-06" => "Juin 2024").
+   * Formate le mois pour l'affichage.
    */
   private formatMonth(key: string): string {
     const [year, month] = key.split('-');
@@ -106,40 +98,55 @@ openExpenseModal(expense: Expense | null = null): void {
     return `${months[parseInt(month, 10) - 1]} ${year}`;
   }
 
-    /**
-   * Delete an expense.
+  /**
+   * Ouvre la modale pour ajouter ou modifier une dépense.
    */
-    deleteExpense(expenseId: number): void {
-      this.expenseService.deleteExpense(expenseId).subscribe(() => {
-        this.expenses = this.expenses.filter((expense) => expense.id !== expenseId);
-        this.groupExpensesByMonth(); 
+  openExpenseModal(expense: Expense | null = null): void {
+    this.selectedExpense = expense ? { ...expense } : null;
+    this.isEditing = !!expense;
+    this.expenseModalVisible = true;
+  }
 
-      });
+  /**
+   * Ferme la modale et réinitialise l'état.
+   */
+  closeExpenseModal(): void {
+    this.expenseModalVisible = false;
+    this.selectedExpense = null;
+    this.isEditing = false;
+  }
 
-    }
+  /**
+   * Supprime une dépense.
+   */
+  deleteExpense(expenseId: number): void {
+    this.expenseService.deleteExpense(expenseId).subscribe(() => {
+      this.expenses = this.expenses.filter((expense) => expense.id !== expenseId);
+      this.groupExpensesByMonth();
+    });
+  }
 
-   /**
- * Save the expense (create or update).
- */
-saveExpense(expense: Expense): void {
-  if (this.isEditing && this.selectedExpense) {
-    this.expenseService
-      .updateExpense(this.selectedExpense.id, expense)
-      .subscribe((updatedExpense) => {
-        this.expenses = this.expenses.map((e) =>
-          e.id === updatedExpense.id ? updatedExpense : e
-        );
+  /**
+   * Enregistre une dépense (création ou mise à jour).
+   */
+  saveExpense(expense: Expense): void {
+    if (this.isEditing && this.selectedExpense) {
+      this.expenseService
+        .updateExpense(this.selectedExpense.id, expense)
+        .subscribe((updatedExpense) => {
+          this.expenses = this.expenses.map((e) =>
+            e.id === updatedExpense.id ? updatedExpense : e
+          );
+          this.groupExpensesByMonth();
+          this.closeExpenseModal();
+        });
+    } else {
+      expense.groupId = this.group!.id;
+      this.expenseService.addExpense(expense).subscribe((newExpense) => {
+        this.expenses.push(newExpense);
         this.groupExpensesByMonth();
         this.closeExpenseModal();
       });
-  } else {
-    expense.groupId = this.group!.id; 
-    this.expenseService.addExpense(expense).subscribe((newExpense) => {
-      this.expenses.push(newExpense);
-      this.groupExpensesByMonth(); 
-      this.closeExpenseModal();
-    });
+    }
   }
-}
-
 }

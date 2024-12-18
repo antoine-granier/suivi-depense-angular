@@ -1,23 +1,17 @@
 <div class="p-mt-3">
-  <p-button icon="pi pi-angle-left" [rounded]="true" [text]="true" [raised]="true" routerLink="/dashboard" />
-  <!-- Titre du groupe -->
   <div *ngIf="group">
     <h2 class="p-text-bold">{{ group.name }}</h2>
     <p>{{ group.description }}</p>
   </div>
 
-  <!-- Dépenses regroupées par mois -->
   <div *ngFor="let group of groupedExpenses" class="p-mb-4">
-    <!-- En-tête du mois -->
     <h4 class="p-text-bold p-mb-2">{{ group.month }} - Total : {{ group.total | currency: 'EUR' }}</h4>
 
-    <!-- Tableau des dépenses -->
     <p-table
       [value]="group.expenses"
       [responsiveLayout]="'scroll'"
       class="p-mb-3"
     >
-      <!-- En-tête du tableau -->
       <ng-template pTemplate="header">
         <tr>
           <th>Description</th>
@@ -28,7 +22,6 @@
         </tr>
       </ng-template>
 
-      <!-- Corps du tableau -->
       <ng-template pTemplate="body" let-expense>
         <tr>
           <td>{{ expense.description }}</td>
@@ -58,7 +51,6 @@
   </div>
 </div>
 
-<!-- Bouton pour ajouter une nouvelle dépense -->
 <div class="p-mt-4">
   <button
     pButton
@@ -69,7 +61,6 @@
   ></button>
 </div>
 
-<!-- Modal pour ajouter ou modifier une dépense -->
 <p-dialog
   header="{{ isEditing ? 'Modifier Dépense' : 'Créer Dépense' }}"
   [(visible)]="expenseModalVisible"

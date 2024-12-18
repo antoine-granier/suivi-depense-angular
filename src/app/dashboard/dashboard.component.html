@@ -1,33 +1,64 @@
-<div class="w-full flex flex-column" *ngFor="let group of groups">
-  <app-group-card
-    [group]="group"
-    (details)="onGroupDetails(group.id)"
-  ></app-group-card>
-  <div class="p-mt-2">
+<div class="dashboard-container flex w-screen h-screen">
+  <aside class="sidebar w-1/4 h-full p-4 shadow-md">
+    <h3 class="p-mb-3">Mes Groupes</h3>
+    <p-menu [model]="menuItems"></p-menu>
     <button
       pButton
-      icon="pi pi-pencil"
-      label="Modifier"
-      class="p-button-rounded p-button-text"
-      (click)="openGroupModal(group)"
+      label="Ajouter Groupe"
+      icon="pi pi-plus"
+      class="p-button-sm p-button-primary p-mt-4"
+      (click)="openGroupModal()"
     ></button>
-    <button
-      pButton
-      icon="pi pi-trash"
-      label="Supprimer"
-      class="p-button-rounded p-button-danger p-button-text"
-      (click)="deleteGroup(group.id)"
-    ></button>
-  </div>
+  </aside>
+
+  <main class="flex-1 p-5">
+    <router-outlet></router-outlet>
+  </main>
 </div>
 
-<div class="p-mt-4">
-  <button
-    pButton
-    label="Ajouter un groupe"
-    icon="pi pi-plus"
-    class="p-button-primary"
-    (click)="openGroupModal()"
-  ></button>
-</div>
-<app-statistic-toggle/>
+<p-dialog
+  header="{{ isEditing ? 'Modifier le Groupe' : 'Créer un Groupe' }}"
+  [(visible)]="groupModalVisible"
+  [closable]="false"
+  [modal]="true"
+  [dismissableMask]="true"
+  [style]="{ width: '400px' }"
+>
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="name">Nom</label>
+      <input
+        id="name"
+        type="text"
+        pInputText
+        [(ngModel)]="selectedGroup.name"
+        placeholder="Nom du groupe"
+      />
+    </div>
+    <div class="p-field">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        pInputTextarea
+        [(ngModel)]="selectedGroup.description"
+        placeholder="Description"
+      ></textarea>
+    </div>
+    <div class="p-mt-3">
+      <button
+        pButton
+        label="Enregistrer"
+        icon="pi pi-save"
+        class="p-button-primary p-mr-2"
+        (click)="saveGroup()"
+      ></button>
+      <button
+        pButton
+        label="Annuler"
+        icon="pi pi-times"
+        class="p-button-secondary"
+        (click)="closeGroupModal()"
+      ></button>
+    </div>
+  </div>
+</p-dialog>
