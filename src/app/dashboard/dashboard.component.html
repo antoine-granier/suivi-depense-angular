@@ -1,4 +1,64 @@
-<div class="w-full flex flex-column" *ngFor="let group of groups">
-  <app-group-card [group]="group" (details)="onGroupDetails($event)"></app-group-card>
+<div class="dashboard-container flex w-screen h-screen">
+  <aside class="sidebar w-1/4 h-full p-4 shadow-md">
+    <h3 class="p-mb-3">Mes Groupes</h3>
+    <p-menu [model]="menuItems"></p-menu>
+    <button
+      pButton
+      label="Ajouter Groupe"
+      icon="pi pi-plus"
+      class="p-button-sm p-button-primary p-mt-4"
+      (click)="openGroupModal()"
+    ></button>
+  </aside>
+
+  <main class="flex-1 p-5">
+    <router-outlet></router-outlet>
+  </main>
 </div>
-<app-statistic-toggle/>
+
+<p-dialog
+  header="{{ isEditing ? 'Modifier le Groupe' : 'Créer un Groupe' }}"
+  [(visible)]="groupModalVisible"
+  [closable]="false"
+  [modal]="true"
+  [dismissableMask]="true"
+  [style]="{ width: '400px' }"
+>
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="name">Nom</label>
+      <input
+        id="name"
+        type="text"
+        pInputText
+        [(ngModel)]="selectedGroup.name"
+        placeholder="Nom du groupe"
+      />
+    </div>
+    <div class="p-field">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        pInputTextarea
+        [(ngModel)]="selectedGroup.description"
+        placeholder="Description"
+      ></textarea>
+    </div>
+    <div class="p-mt-3">
+      <button
+        pButton
+        label="Enregistrer"
+        icon="pi pi-save"
+        class="p-button-primary p-mr-2"
+        (click)="saveGroup()"
+      ></button>
+      <button
+        pButton
+        label="Annuler"
+        icon="pi pi-times"
+        class="p-button-secondary"
+        (click)="closeGroupModal()"
+      ></button>
+    </div>
+  </div>
+</p-dialog>
