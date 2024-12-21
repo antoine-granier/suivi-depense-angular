@@ -27,7 +27,11 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadGroups();
+    if (!this.authSessionService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+    } else {
+      this.loadGroups();
+    }
   }
 
   loadGroups(): void {
@@ -77,4 +81,10 @@ export class DashboardComponent implements OnInit {
       this.closeGroupModal();
     });
   }
+
+  logout(): void {
+    this.authSessionService.logout();
+    this.router.navigate(['/login']);
+  }
+  
 }
