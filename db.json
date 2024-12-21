@@ -1,19 +1,19 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Alice",
       "email": "alice@example.com",
       "password": "password123"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Bob",
       "email": "bob@example.com",
       "password": "password456"
     },
     {
-      "id": 3,
+      "id": "3",
       "email": "admin@mail.com",
       "name": "admin",
       "password": "admin123"
@@ -21,23 +21,37 @@
   ],
   "groups": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Maison",
       "description": "Dépenses liées à la maison",
       "userId": 2,
       "createdAt": "2023-11-01T10:00:00Z"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Voiture",
       "description": "Dépenses liées à la voiture",
       "userId": 3,
       "createdAt": "2023-11-02T10:00:00Z"
+    },
+    {
+      "id": "3",
+      "name": "test",
+      "description": "test",
+      "userId": "3",
+      "createdAt": "2024-12-21T20:23:11.656Z"
+    },
+    {
+      "id": "4",
+      "name": "Logement",
+      "description": "",
+      "userId": "3",
+      "createdAt": "2024-12-21T20:28:54.754Z"
     }
   ],
   "expenses": [
     {
-      "id": 1,
+      "id": "1",
       "groupId": 1,
       "description": "Loyer",
       "amount": 1200,
@@ -46,7 +60,7 @@
       "date": "2023-11-01T00:00:00Z"
     },
     {
-      "id": 2,
+      "id": "2",
       "groupId": 1,
       "description": "Electricité",
       "amount": 75,
@@ -55,7 +69,7 @@
       "date": "2023-11-05T00:00:00Z"
     },
     {
-      "id": 3,
+      "id": "3",
       "groupId": 2,
       "description": "Assurance voiture",
       "amount": 500,
@@ -64,13 +78,40 @@
       "date": "2023-11-10T00:00:00Z"
     },
     {
-      "id": 4,
+      "id": "4",
       "groupId": 2,
       "description": "Essence",
       "amount": 50,
       "category": "Carburant",
       "recurring": false,
       "date": "2023-11-15T00:00:00Z"
+    },
+    {
+      "id": "8226",
+      "description": "dépense test",
+      "amount": 200,
+      "category": "Autres",
+      "date": "2024-12-02T23:00:00.000Z",
+      "recurring": false,
+      "groupId": "3"
+    },
+    {
+      "id": "9022",
+      "description": "dépense test 2",
+      "amount": 1000,
+      "category": "Alimentation",
+      "date": "2024-12-25T23:00:00.000Z",
+      "recurring": false,
+      "groupId": 3
+    },
+    {
+      "description": "Loyer",
+      "amount": 800,
+      "category": "Logement",
+      "date": "2024-12-02T23:00:00.000Z",
+      "recurring": true,
+      "id": "1948",
+      "groupId": 4
     }
   ]
 }

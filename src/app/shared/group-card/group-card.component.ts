@@ -8,7 +8,7 @@ import { Group } from '../../models/group';
 })
 export class GroupCardComponent {
   @Input() group!: Group;
-  @Output() details = new EventEmitter<number>();
+  @Output() details = new EventEmitter<string>();
 
   viewDetails(): void {
     this.details.emit(this.group.id); 

@@ -11,6 +11,10 @@ export class GroupService {
 
   constructor(private http: HttpClient) {}
 
+  getAllGroups(): Observable<Group[]> {
+    return this.http.get<Group[]>(`${this.apiUrl}`);
+  }
+
   getGroups(userId: number): Observable<Group[]> {
     return this.http.get<Group[]>(`${this.apiUrl}?userId=${userId}`);
   }

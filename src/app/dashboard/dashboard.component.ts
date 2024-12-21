@@ -12,10 +12,10 @@ import { MenuItem } from 'primeng/api';
 })
 export class DashboardComponent implements OnInit {
   groups: Group[] = [];
-  selectedGroupId: number | null = null;
+  selectedGroupId: string | null = null;
 
   groupModalVisible: boolean = false;
-  selectedGroup: Group = { id: 0, name: '', description: '', userId: 0, createdAt: new Date() };
+  selectedGroup: Group = { id: "0", name: '', description: '', userId: 0, createdAt: new Date() };
   isEditing: boolean = false;
   sidebarVisible: boolean = true;
   menuItems: MenuItem[] = [];
@@ -60,13 +60,13 @@ export class DashboardComponent implements OnInit {
     ];
   }
 
-  onGroupSelected(groupId: number): void {
+  onGroupSelected(groupId: string): void {
     this.selectedGroupId = groupId;
     this.router.navigate(['/dashboard/group', groupId]);
   }
 
   openGroupModal(): void {
-    this.selectedGroup = { id: 0, name: '', description: '', userId: this.authSessionService.getUser().id, createdAt:new Date() };
+    this.selectedGroup = { id: "0", name: '', description: '', userId: this.authSessionService.getUser().id, createdAt:new Date() };
     this.groupModalVisible = true;
     this.isEditing = false;
   }
@@ -76,9 +76,13 @@ export class DashboardComponent implements OnInit {
   }
 
   saveGroup(): void {
-    this.groupService.addGroup(this.selectedGroup).subscribe(() => {
-      this.loadGroups();
-      this.closeGroupModal();
+    this.groupService.getAllGroups().subscribe((groups) => {
+      const maxId = groups.reduce((max, group) => Math.max(max, Number(group.id)), 0);
+      this.selectedGroup.id = String(maxId + 1);
+      this.groupService.addGroup(this.selectedGroup).subscribe(() => {
+        this.loadGroups();
+        this.closeGroupModal();
+      });
     });
   }
 

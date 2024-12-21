@@ -17,7 +17,7 @@ export class StatisticToggleComponent implements OnInit {
   pieChartData: any;
 
   groups: Group[] = [];
-  expensesByGroup: { [groupId: number]: Expense[] } = {};
+  expensesByGroup: { [groupId: string]: Expense[] } = {};
   isLoading: boolean = true;
 
   constructor(
@@ -38,7 +38,7 @@ export class StatisticToggleComponent implements OnInit {
       next: (groups: Group[]) => {
         this.groups = groups;
         const expenseRequests = groups.map(group =>
-          this.expenseService.getExpensesByGroup(group.id)
+          this.expenseService.getExpensesByGroup(Number(group.id))
         );
 
         forkJoin(expenseRequests).subscribe({
@@ -66,7 +66,7 @@ export class StatisticToggleComponent implements OnInit {
   setupBarChart() {
     const groupTotals = this.groups.map(group => {
       const total = (this.expensesByGroup[group.id] || []).reduce(
-        (sum, expense) => sum + expense.amount,
+        (sum: number, expense: Expense) => sum + expense.amount,
         0
       );
       return { groupName: group.name, total };

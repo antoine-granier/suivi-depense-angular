@@ -24,7 +24,7 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe({
         next: user => {
           this.authSessionService.setUser({email: user.email, id: user.id, name: user.name})
-          this.router.navigate(["dashboard"])
+          this.router.navigate(["dashboard/stats"])
         },
         error: err => {
           console.log("Error");

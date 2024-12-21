@@ -141,7 +141,7 @@ export class GroupDetailsComponent implements OnInit {
           this.closeExpenseModal();
         });
     } else {
-      expense.groupId = this.group!.id;
+      expense.groupId = Number(this.group!.id);
       this.expenseService.addExpense(expense).subscribe((newExpense) => {
         this.expenses.push(newExpense);
         this.groupExpensesByMonth();
