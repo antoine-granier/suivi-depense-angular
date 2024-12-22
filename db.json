@@ -47,6 +47,13 @@
       "description": "",
       "userId": "3",
       "createdAt": "2024-12-21T20:28:54.754Z"
+    },
+    {
+      "id": "5",
+      "name": "Cadeaux",
+      "description": "",
+      "userId": "3",
+      "createdAt": "2024-12-22T18:09:59.199Z"
     }
   ],
   "expenses": [
