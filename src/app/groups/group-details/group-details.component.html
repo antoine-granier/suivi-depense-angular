@@ -50,9 +50,6 @@
     </p-table>
   </div>
 </div>
-
-<app-statistic-toggle *ngIf="group" [id]="group.id" #statisticToggle></app-statistic-toggle>
-
 <div class="p-mt-4">
   <button
     pButton
@@ -62,6 +59,9 @@
     (click)="openExpenseModal()"
   ></button>
 </div>
+
+<app-statistic-toggle *ngIf="group" [id]="group.id" #statisticToggle></app-statistic-toggle>
+
 
 <p-dialog
   header="{{ isEditing ? 'Modifier Dépense' : 'Créer Dépense' }}"

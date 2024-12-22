@@ -8,7 +8,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Expense } from '../../models/expense';
+import { Expense } from '../models/expense';
 
 @Component({
   selector: 'app-expense-form',
