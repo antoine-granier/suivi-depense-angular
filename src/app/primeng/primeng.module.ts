@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 
-// PrimeNG Modules
-import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -14,11 +12,16 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { CalendarModule } from 'primeng/calendar';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { MenuModule } from 'primeng/menu';
+import { AvatarModule } from 'primeng/avatar';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ButtonModule } from 'primeng/button';
+
 
 @NgModule({
   exports: [
     ButtonModule,
     InputTextModule,
+    InputTextareaModule,
     TableModule,
     DialogModule,
     CheckboxModule,
@@ -30,7 +33,8 @@ import { MenuModule } from 'primeng/menu';
     ConfirmDialogModule,
     CalendarModule,
     InputNumberModule,
-    MenuModule
+    MenuModule,
+    AvatarModule
   ]
 })
 export class PrimeNgModule {}

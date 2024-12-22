@@ -4,7 +4,7 @@
     <p>{{ group.description }}</p>
   </div>
 
-  <div *ngFor="let group of groupedExpenses" class="p-mb-4">
+  <div *ngFor="let group of groupedExpenses" class="m-4">
     <h4 class="p-text-bold p-mb-2">{{ group.month }} - Total : {{ group.total | currency: 'EUR' }}</h4>
 
     <p-table
@@ -24,9 +24,9 @@
 
       <ng-template pTemplate="body" let-expense>
         <tr>
-          <td>{{ expense.description }}</td>
-          <td>{{ expense.amount | currency: 'EUR' }}</td>
-          <td>{{ expense.category }}</td>
+          <td appHighlight>{{ expense.description }}</td>
+          <td appHighlight>{{ expense.amount | currency: 'EUR' }}</td>
+          <td appHighlight>{{ expense.category }}</td>
           <td>
             <i *ngIf="expense.recurring" class="pi pi-check" style="color: green"></i>
             <i *ngIf="!expense.recurring" class="pi pi-times" style="color: red"></i>
@@ -50,6 +50,8 @@
     </p-table>
   </div>
 </div>
+
+<app-statistic-toggle *ngIf="group" [id]="group.id" #statisticToggle></app-statistic-toggle>
 
 <div class="p-mt-4">
   <button
@@ -76,3 +78,4 @@
     (cancel)="closeExpenseModal()"
   ></app-expense-form>
 </p-dialog>
+

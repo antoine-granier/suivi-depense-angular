@@ -7,7 +7,6 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GroupDetailsComponent } from './groups/group-details/group-details.component';
-import { GroupCardComponent } from './shared/group-card/group-card.component';
 import { ExpenseFormComponent } from './shared/expense-form/expense-form.component';
 import { HighlightDirective } from './directives/highlight.directive';
 import { CurrencyFormatPipe } from './pipes/currency-format.pipe';
@@ -23,7 +22,6 @@ import { ChartModule } from 'primeng/chart';
     RegisterComponent,
     DashboardComponent,
     GroupDetailsComponent,
-    GroupCardComponent,
     ExpenseFormComponent,
     HighlightDirective,
     CurrencyFormatPipe,

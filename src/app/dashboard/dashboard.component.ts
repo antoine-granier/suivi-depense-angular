@@ -4,6 +4,7 @@ import { Group } from '../models/group';
 import { GroupService } from '../services/group.service';
 import { AuthSessionService } from '../services/auth-session.service';
 import { MenuItem } from 'primeng/api';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,16 +16,24 @@ export class DashboardComponent implements OnInit {
   selectedGroupId: string | null = null;
 
   groupModalVisible: boolean = false;
-  selectedGroup: Group = { id: "0", name: '', description: '', userId: 0, createdAt: new Date() };
+  groupForm: FormGroup;
   isEditing: boolean = false;
-  sidebarVisible: boolean = true;
   menuItems: MenuItem[] = [];
 
   constructor(
     private groupService: GroupService,
     private authSessionService: AuthSessionService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.groupForm = this.fb.group({
+      id: ["0"],
+      name: ["", Validators.required],
+      description: [""],
+      userId: [0],
+      createdAt: [new Date()]
+    });
+  }
 
   ngOnInit(): void {
     if (!this.authSessionService.isLoggedIn()) {
@@ -42,21 +51,35 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  /**
-   * Construit les éléments de menu dynamiquement.
-   */
   buildMenuItems(): void {
-    this.menuItems = [
+    const actionItems: MenuItem[] = [
       {
         label: 'Statistiques',
         icon: 'pi pi-chart-bar',
         command: () => this.router.navigate(['/dashboard/stats']),
       },
-      ...this.groups.map((group) => ({
-        label: group.name,
-        icon: 'pi pi-folder',
-        command: () => this.onGroupSelected(group.id),
-      })),
+      {
+        label: 'Ajouter un groupe',
+        icon: 'pi pi-plus',
+        command: () => this.openGroupModal(),
+      },
+    ];
+
+    const groupItems: MenuItem[] = this.groups.map((group) => ({
+      label: group.name,
+      icon: 'pi pi-folder',
+      command: () => this.onGroupSelected(group.id),
+    }));
+
+    this.menuItems = [
+      {
+        label: 'Actions',
+        items: actionItems,
+      },
+      {
+        label: 'Groupes',
+        items: groupItems,
+      },
     ];
   }
 
@@ -66,7 +89,13 @@ export class DashboardComponent implements OnInit {
   }
 
   openGroupModal(): void {
-    this.selectedGroup = { id: "0", name: '', description: '', userId: this.authSessionService.getUser().id, createdAt:new Date() };
+    this.groupForm.reset({
+      id: "0",
+      name: "",
+      description: "",
+      userId: this.authSessionService.getUser().id,
+      createdAt: new Date()
+    });
     this.groupModalVisible = true;
     this.isEditing = false;
   }
@@ -76,10 +105,16 @@ export class DashboardComponent implements OnInit {
   }
 
   saveGroup(): void {
+    if (this.groupForm.invalid) {
+      return;
+    }
+
+    const newGroup: Group = this.groupForm.value;
+
     this.groupService.getAllGroups().subscribe((groups) => {
       const maxId = groups.reduce((max, group) => Math.max(max, Number(group.id)), 0);
-      this.selectedGroup.id = String(maxId + 1);
-      this.groupService.addGroup(this.selectedGroup).subscribe(() => {
+      newGroup.id = String(maxId + 1);
+      this.groupService.addGroup(newGroup).subscribe(() => {
         this.loadGroups();
         this.closeGroupModal();
       });
@@ -90,5 +125,18 @@ export class DashboardComponent implements OnInit {
     this.authSessionService.logout();
     this.router.navigate(['/login']);
   }
-  
+
+  getUsername(): string | null {
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      try {
+        const user = JSON.parse(currentUser);
+        return user?.name || null;
+      } catch (error) {
+        console.error('Erreur de parsing JSON:', error);
+        return null;
+      }
+    }
+    return null;
+  }
 }

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ExpenseService } from '../../services/expense.service';
 import { Expense } from '../../models/expense';
 import { Group } from '../../models/group';
 import { ActivatedRoute } from '@angular/router';
 import { GroupService } from 'src/app/services/group.service';
+import { StatisticToggleComponent } from 'src/app/statistic-toggle/statistic-toggle.component';
 
 interface ExpensesByMonth {
   month: string;
@@ -17,6 +18,8 @@ interface ExpensesByMonth {
   styleUrls: ['./group-details.component.scss']
 })
 export class GroupDetailsComponent implements OnInit {
+  @ViewChild('statisticToggle') statisticToggle!: StatisticToggleComponent;
+
   group!: Group | null;
   expenses: Expense[] = [];
   groupedExpenses: ExpensesByMonth[] = [];
@@ -31,7 +34,6 @@ export class GroupDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Écouter les changements d'ID dans l'URL
     this.route.paramMap.subscribe((params) => {
       const groupId = Number(params.get('id'));
       if (groupId) {
@@ -40,25 +42,17 @@ export class GroupDetailsComponent implements OnInit {
     });
   }
 
-  /**
-   * Charge les données du groupe et ses dépenses
-   */
   loadGroupData(groupId: number): void {
-    // Charger les informations du groupe
     this.groupService.getGroupById(groupId).subscribe((group) => {
       this.group = group;
     });
 
-    // Charger les dépenses du groupe
     this.expenseService.getExpensesByGroup(groupId).subscribe((expenses) => {
       this.expenses = expenses;
       this.groupExpensesByMonth();
     });
   }
 
-  /**
-   * Regroupe les dépenses par mois et calcule le total.
-   */
   groupExpensesByMonth(): void {
     const grouped: { [key: string]: Expense[] } = {};
 
@@ -86,9 +80,6 @@ export class GroupDetailsComponent implements OnInit {
       });
   }
 
-  /**
-   * Formate le mois pour l'affichage.
-   */
   private formatMonth(key: string): string {
     const [year, month] = key.split('-');
     const months = [
@@ -98,27 +89,19 @@ export class GroupDetailsComponent implements OnInit {
     return `${months[parseInt(month, 10) - 1]} ${year}`;
   }
 
-  /**
-   * Ouvre la modale pour ajouter ou modifier une dépense.
-   */
   openExpenseModal(expense: Expense | null = null): void {
     this.selectedExpense = expense ? { ...expense } : null;
     this.isEditing = !!expense;
     this.expenseModalVisible = true;
   }
 
-  /**
-   * Ferme la modale et réinitialise l'état.
-   */
+
   closeExpenseModal(): void {
     this.expenseModalVisible = false;
     this.selectedExpense = null;
     this.isEditing = false;
   }
 
-  /**
-   * Supprime une dépense.
-   */
   deleteExpense(expenseId: number): void {
     this.expenseService.deleteExpense(expenseId).subscribe(() => {
       this.expenses = this.expenses.filter((expense) => expense.id !== expenseId);
@@ -126,9 +109,7 @@ export class GroupDetailsComponent implements OnInit {
     });
   }
 
-  /**
-   * Enregistre une dépense (création ou mise à jour).
-   */
+ 
   saveExpense(expense: Expense): void {
     if (this.isEditing && this.selectedExpense) {
       this.expenseService
@@ -139,6 +120,7 @@ export class GroupDetailsComponent implements OnInit {
           );
           this.groupExpensesByMonth();
           this.closeExpenseModal();
+          this.statisticToggle.refreshData();
         });
     } else {
       expense.groupId = Number(this.group!.id);
@@ -146,6 +128,7 @@ export class GroupDetailsComponent implements OnInit {
         this.expenses.push(newExpense);
         this.groupExpensesByMonth();
         this.closeExpenseModal();
+        this.statisticToggle.refreshData();
       });
     }
   }

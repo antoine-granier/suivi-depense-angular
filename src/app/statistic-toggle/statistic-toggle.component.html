@@ -10,12 +10,10 @@
   </div>
 </div>
 
-<!-- Loader -->
 <p *ngIf="isLoading" class="text-sm">
   <i class="pi pi-spin pi-spinner"></i> Chargement des données...
 </p>
 
-<!-- Contenu après chargement -->
 <div class="chart" *ngIf="!isLoading">
   <div *ngIf="showBarChart; else pieChart">
     <h3 class="text-sm">Comparaison des dépenses par groupe</h3>
